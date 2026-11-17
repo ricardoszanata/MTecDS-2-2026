@@ -1,0 +1,18 @@
+estrutuda para insert, update e delete
+<?php
+require '../../../config/conexao.php';
+require '../../../config/header.php';
+$pdo = Conexao::conectar();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$msg = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    $sql = "";
+    $prp = $pdo->prepare($sql);
+    if ($prp->execute([])) {
+        $msg = '<span class="alert alert-success text-center">DADOS GRAVADOS COM SUCESSO!</span>';
+    } else {
+        $msg = '<span class="alert alert-danger text-center">ERRO AO GRAVAR OS DADOS!</span>';
+    }
+}
+?>

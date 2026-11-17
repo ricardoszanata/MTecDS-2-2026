@@ -1,4 +1,23 @@
-<?php include '../../../config/header.php'; ?>
+<?php
+require '../../../config/conexao.php';
+require '../../../config/header.php';
+$pdo = Conexao::conectar();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$msg = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //USUNOM USUSEN USUTIP
+    $nome = strtoupper(filter_input(INPUT_POST,'unom'));
+    $senha = strtoupper(filter_input(INPUT_POST,'usen'));
+    $tipo = strtoupper(filter_input(INPUT_POST,'utip'));
+    $sql = "INSERT INTO usuarios(usunom,ususen,usutip)VALUES(?,?,?);";
+    $prp = $pdo->prepare($sql);
+    if ($prp->execute([$nome,$senha,$tipo])) {
+        $msg = '<span class="alert alert-success text-center">DADOS GRAVADOS COM SUCESSO!</span>';
+    } else {
+        $msg = '<span class="alert alert-danger text-center">ERRO AO GRAVAR OS DADOS!</span>';
+    }
+}
+?>
 <form action="" method="post" class="mt-3">
     <div class="form-group mt-2">
         <label for="unom">NOME:</label>
@@ -20,3 +39,4 @@
     </div>
     <button type="submit" class="btn btn-outline-primary mt-3">GRAVAR</button>
 </form>
+<div class="text-center mt-3"><?php echo $msg;?></div>

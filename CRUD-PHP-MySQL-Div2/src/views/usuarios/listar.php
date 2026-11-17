@@ -1,4 +1,18 @@
-<?php include '../../../config/header.php'; ?>
+<?php
+require '../../../config/conexao.php';
+require '../../../config/header.php';
+$pdo = Conexao::conectar();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$sql = "SELECT usucod AS ID,usunom AS NOME,ususen AS SENHA,usutip AS TIPO FROM usuarios ORDER BY usunom;";
+$prp = $pdo->prepare($sql);
+$prp->execute();
+
+while($data=$prp->fetch()){
+    echo $data['usunom'];
+}
+
+?>
 <form>
     <div class="form-group mt-2">
         <label for="filtro">Digite um Nome para Filtrar</label>
